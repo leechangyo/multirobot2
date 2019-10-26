@@ -1,0 +1,71 @@
+source1:
+  type: RosKinect
+  module: 'object_recognition_ros.io'
+  parameters:
+    rgb_frame_id: '/robot1_tf/camera1_stand'
+    rgb_image_topic: '/robot1_camera/rgb/image_raw'
+    rgb_camera_info: '/robot1_camera/rgb/camera_info'
+    depth_image_topic: '/robot1_camera/depth/image_raw'
+    depth_camera_info: '/robot1_camera/depth/camera_info'
+    #
+    #crop_enabled: True
+    #x_min: -0.4
+    #x_max: 0.4
+    #y_min: -1.0
+    #y_max: 0.2
+    #z_min: 0.3
+    #z_max: 1.5
+
+source2:
+  type: RosKinect
+  module: 'object_recognition_ros.io'
+  parameters:
+    rgb_frame_id: '/robot2_tf/camera1_stand'
+    rgb_image_topic: '/robot2_camera/rgb/image_raw'
+    rgb_camera_info: '/robot2_camera/rgb/camera_info'
+    depth_image_topic: '/robot2_camera/depth/image_raw'
+    depth_camera_info: '/robot2_camera/depth/camera_info'
+    #
+    #crop_enabled: True
+    #x_min: -0.4
+    #x_max: 0.4
+    #y_min: -1.0
+    #y_max: 0.2
+    #z_min: 0.3
+    #z_max: 1.5
+
+sink1:
+  type: TablePublisher
+  module: 'object_recognition_tabletop'
+  inputs: [source1]
+
+pipeline1:
+  type: TabletopTableDetector
+  module: 'object_recognition_tabletop'
+  inputs: [source1]
+  outputs: [sink1]
+  parameters:
+    table_detector:
+      min_table_size: 4000
+      plane_threshold: 0.01
+    #clusterer:
+    #  table_z_filter_max: 0.35
+    #  table_z_filter_min: 0.025
+
+sink2:
+  type: TablePublisher
+  module: 'object_recognition_tabletop'
+  inputs: [source2]
+
+pipeline2:
+  type: TabletopTableDetector
+  module: 'object_recognition_tabletop'
+  inputs: [source2]
+  outputs: [sink2]
+  parameters:
+    table_detector:
+      min_table_size: 4000
+      plane_threshold: 0.01
+    #clusterer:
+    #  table_z_filter_max: 0.35
+    #  table_z_filter_min: 0.025

@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<robot name="hrwros" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<!-- property -->
+  <property name="PI" value="3.1415926" />
+  <!-- world -->
+  <link name="world" />
+
+  <!-- workcell -->
+  <xacro:include filename="$(find hrwros_support)/urdf/workcell/workcell.urdf.xacro"/>
+  <xacro:workcell_urdf workcell_parent="world_interface"/>
+
+  <!-- Robot1 Pedestal -->
+  <xacro:include filename="$(find hrwros_support)/urdf/robot_pedestal/robot_pedestal.urdf.xacro"/>
+  <xacro:robot_pedestal_urdf pedestal_prefix="robot1_" pedestal_parent="world_interface" pedestal_height="0.9">
+    <origin xyz="0.5 1.8 0.0" rpy="0 0 0"/>
+  </xacro:robot_pedestal_urdf>
+
+  <!-- Robot1 -->
+  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro"/>
+  <xacro:ur5_robot prefix="robot1_" joint_limited="true"/>
+
+  <!-- Vacuum Gripper1 -->
+  <xacro:include filename="$(find hrwros_support)/urdf/vacuum_gripper/vacuum_gripper.urdf.xacro"/>
+  <xacro:vacuum_gripper_urdf prefix="vacuum_gripper1_" joint_prefix="vacuum_gripper1_joint"/>
+  <!-- gripper1
+  <xacro:include filename="$(find hrwros_support)/urdf/twofinger/robotiq_85_gripper.urdf.xacro"/>
+    <xacro:robotiq_85_gripper prefix="finger_gripper1_" parent="finger_gripper1_tool0" >
+      <origin xyz="0.0 0 0.005" rpy="0 ${-PI/2} 0"/>
+  </xacro:robotiq_85_gripper> -->
+
+  <!-- Robot2 Pedestal -->
+  <xacro:include filename="$(find hrwros_support)/urdf/robot_pedestal/robot_pedestal.urdf.xacro"/>
+  <xacro:robot_pedestal_urdf pedestal_prefix="robot2_" pedestal_parent="world_interface" pedestal_height="0.9">
+    <origin xyz="-7.8 -1.5 0.0" rpy="0 0 0"/>
+  </xacro:robot_pedestal_urdf>
+
+  <!-- Robot2 -->
+  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro"/>
+  <xacro:ur5_robot prefix="robot2_" joint_limited="true"/>
+
+  <!-- Vacuum Gripper2 -->
+  <xacro:include filename="$(find hrwros_support)/urdf/vacuum_gripper/vacuum_gripper.urdf.xacro"/>
+  <xacro:vacuum_gripper_urdf prefix="vacuum_gripper2_" joint_prefix="vacuum_gripper2_joint"/>
+
+  <!-- bins -->
+  <!-- <xacro:include filename="$(find hrwros_support)/urdf/bin/bin.urdf.xacro"/>
+  <xacro:bin_urdf prefix="bin_1_"/> -->
+
+
+  <!-- Joints -->
+  <joint name="world_interface_to_world" type="fixed">
+    <parent link="world" />
+    <child link="world_interface" />
+  </joint>
+
+  <!-- robot1-pedestal to world. -->
+  <joint name="robot1_pedestal_to_world_interface" type="fixed">
+    <parent link="world_interface" />
+    <child link="robot1_pedestal_link" />
+    <origin xyz="-0.1 -0.25 0.0" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <!-- robot1 to pedestal. -->
+  <joint name="robot1_to_pedestal" type="fixed">
+  <origin xyz="0 0 1.1" rpy="0 0 0" />
+  <parent link="robot1_pedestal_link" />
+  <child link="robot1_base_link" />
+  </joint>
+
+  <!-- gripper1 to robot1. -->
+  <joint name="gripper1_to_robot1" type="fixed">
+    <parent link="robot1_tool0" />
+    <child link="vacuum_gripper1_base_link" />
+  </joint>
+
+  <!-- robot2-pedestal to world. -->
+  <joint name="robot2_pedestal_to_world_interface" type="fixed">
+    <parent link="world_interface" />
+    <child link="robot2_pedestal_link" />
+    <origin xyz="1.4 -0.25 0.0" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <!-- robot2 to pedestal. -->
+  <joint name="robot2_to_pedestal" type="fixed">
+    <parent link="robot2_pedestal_link" />
+    <child link="robot2_base_link" />
+    <origin xyz="0 0 1.1" rpy="0 0 0" />
+  </joint>
+
+  <!-- gripper2 to robot2. -->
+  <joint name="gripper2_to_robot2" type="fixed">
+    <parent link="robot2_tool0" />
+    <child link="vacuum_gripper2_base_link" />
+  </joint>
+
+  <!-- camera1 stand -->
+  <link name="camera1_stand">
+    <!-- <origin xyz="0.6 1 2" rpy="0 0.785 -1.57" /> -->
+    <origin xyz="0 0 0 " rpy="0 0 0" />
+    </link>
+
+  <joint name="camera_fixed" type="fixed">
+    <parent link="world_interface"/>
+    <child link="camera1_stand"/>
+    <origin xyz="0.6 1.0 2" rpy="-2.355 0.0 3.14" /> 
+    <!-- camera position x - robot position = x , camera postion y - robot poisition = y -->
+    <!-- use this parameter  -->
+  </joint>  
+  <!-- camera2 stand -->
+  <link name="camera2_stand">
+  <origin xyz="0 0 0 " rpy="0 0 0" />
+  </link>
+
+  <joint name="camera2_fixed" type="fixed">
+    <parent link="world_interface"/>
+    <child link="camera2_stand"/>
+    <origin xyz="0.6 -1.5 2" rpy="3.925 0.0 0" /> 
+    <!-- camera position x - robot position = x , camera postion y - robot poisition = y -->
+  </joint>  
+</robot>

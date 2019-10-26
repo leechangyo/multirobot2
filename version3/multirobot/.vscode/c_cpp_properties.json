@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/chan/catkin_ws/devel/include/**",
+                "/home/chan/catkin_ws_python3/install/include/**",
+                "/opt/ros/kinetic/include/**",
+                "/home/chan/catkin_ws_python3/devel/include/**",
+                "/home/chan/catkin_ws/src/multi_chanrobot/hrwros_gazebo/include/**",
+                "/home/chan/catkin_ws/src/multi_chanrobot/week4_dependencies/moveit_setup_assistant/include/**",
+                "/home/chan/catkin_ws/src/openni_camera/openni_camera/include/**",
+                "/home/chan/catkin_ws/src/robotiq_85_gripper/robotiq_85_simulation/roboticsgroup_gazebo_plugins/include/**",
+                "/home/chan/catkin_ws/src/robotiq_ft_sensor/include/**",
+                "/usr/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
